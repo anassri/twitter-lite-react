@@ -27,9 +27,10 @@ router.post(
   validateEmailAndPassword,
   asyncHandler(async (req, res) => {
     const { username, email, password } = req.body;
+    console.log(req.body);
     const hashedPassword = await bcrypt.hash(password, 10);
+    console.log(hashedPassword);
     const user = await User.create({ username, email, hashedPassword });
-
     const token = getUserToken(user);
     res.cookie("token", token);
     res.status(201).json({
