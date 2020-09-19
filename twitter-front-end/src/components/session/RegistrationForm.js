@@ -1,6 +1,7 @@
 // ./twitter-front-end/src/components/session/RegistrationForm.js
 
 import React from 'react';
+import UserContext from '../../contexts/UserContext';
 
 class RegistrationForm extends React.Component {
     constructor(props) {
@@ -25,9 +26,11 @@ class RegistrationForm extends React.Component {
                 },
             });
             if (!res.ok) throw res;
-            const data = await res.json();
-
-            console.log(data.token, data.user.id);
+            const {
+                token,
+                user: { id },
+            } = await res.json();
+            this.props.value.updateContext(token, id);
 
         } catch (err) {
             console.error(err);
@@ -56,4 +59,14 @@ class RegistrationForm extends React.Component {
     }
 }
 
-export default RegistrationForm;
+class RegistrationFormWithContext extends React.Component {
+    render() {
+        return (
+            <UserContext.consumer >
+                {value => <RegistrationForm auth={value} />}
+            </UserContext.consumer>
+        );
+    }
+}
+
+export default RegistrationFormWithContext;

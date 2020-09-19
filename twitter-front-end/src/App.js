@@ -6,7 +6,7 @@ import Profile from './components/Profile';
 import LoginForm from './components/session/LoginForm';
 import { ProtectedRoute, AuthRoute } from './Routes';
 
-const App = () => (
+const App = (props) => (
   <BrowserRouter>
     <div>
       <h1>Twitter Lite</h1>
@@ -14,10 +14,10 @@ const App = () => (
       <NavLink to="/register" activeClassName="active">Register</NavLink>
       <NavLink to="/login" activeClassName="active">Login</NavLink>
       <Switch>
-        <ProtectedRoute exact path="/" component={Home} />
-        <ProtectedRoute exact path="/users/:userId" component={Profile} />
-        <AuthRoute path='/register' component={RegistrationForm} />
-        <AuthRoute path='/login' component={LoginForm} />
+        <ProtectedRoute exact path="/" component={Home} currentUserId={props.currentUserId}/>
+        <ProtectedRoute exact path="/users/:userId" component={Profile} currentUserId={props.currentUserId}/>
+        <AuthRoute path='/register' component={RegistrationForm} currentUserId={props.currentUserId}/>
+        <AuthRoute path='/login' component={LoginForm} currentUserId={props.currentUserId}/>
         <Route path="/register" component={RegistrationForm} />
         <Route path="/login" component={LoginForm} />
         <Route path="/" component={Home} />
@@ -28,5 +28,6 @@ const App = () => (
     </div>
   </BrowserRouter >
 );
+
 
 export default App;
